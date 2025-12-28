@@ -1,7 +1,8 @@
 export function encodeArticleId(url: string): string {
-  return Buffer.from(url).toString("base64url");
+  return btoa(url).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 export function decodeArticleId(id: string): string {
-  return Buffer.from(id, "base64url").toString("utf-8");
+  const base64 = id.replace(/-/g, "+").replace(/_/g, "/");
+  return atob(base64);
 }
