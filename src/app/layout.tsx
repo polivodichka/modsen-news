@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/widgets/header";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "Modsen News",
-  description: "Latest news from around the world",
 };
 
 export default function RootLayout({
@@ -13,10 +24,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-        <main className="max-w-7xl mx-auto px-4 py-8">
-          {children}
-        </main>
+      <body
+        className={`${inter.variable} ${montserrat.variable} min-h-screen text-[var(--text)]`}
+      >
+        <Header />
+        <main className="mx-auto max-w-7xl px-4 py-8">{children}</main>
       </body>
     </html>
   );
