@@ -1,16 +1,15 @@
 import { Suspense } from "react";
 import { getTopHeadlines } from "@/entities/article";
 import { ArticleCard, ArticleCardSkeleton } from "@/widgets/article-card";
-import { CategoryGrid } from "@/features/category-filter";
-import { CategoryCardSkeleton } from "@/features/category-filter";
 import { ArticlesGrid, AutoRefresh } from "@/shared/ui";
+import { CategoryCardSkeleton, CategoryGrid } from "@/widgets/category-card";
 
 async function ArticleList() {
   const articles = await getTopHeadlines();
   return (
     <ArticlesGrid>
       {articles.map((article) => (
-        <ArticleCard key={article.url} article={article} />
+        <ArticleCard key={article.webUrl} article={article} />
       ))}
     </ArticlesGrid>
   );

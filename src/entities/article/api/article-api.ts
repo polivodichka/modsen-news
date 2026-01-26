@@ -1,57 +1,64 @@
 import { fetchClient } from "@/shared/api";
 import { API_CONFIG } from "@/shared/config";
-import type { NewsApiResponse, Article } from "../model";
-import { encodeArticleId } from "../model";
-import { ONE_HOUR } from "@/shared/config/time";
+import type { GuardianResponse, Article } from "../model";
+import { decodeArticleId } from "../model";
 
-const { baseUrl, apiKey, defaultCountry, pageSize } = API_CONFIG;
+const { baseUrl, apiKey, pageSize } = API_CONFIG;
+
+const FIELDS = "headline,bodyText,thumbnail,byline,shortUrl,trailText";
+
+// Маппинг наших категорий на секции Guardian
+const CATEGORY_MAP: Record<string, string> = {
+  general: "news",
+  business: "business",
+  entertainment: "culture",
+  health: "lifeandstyle",
+  science: "science",
+  sports: "sport",
+  technology: "technology",
+};
 
 export async function getTopHeadlines(): Promise<Article[]> {
-  const url = `${baseUrl}/top-headlines?country=${defaultCountry}&pageSize=${pageSize}&apiKey=${apiKey}`;
+  const url = `${baseUrl}/search?order-by=newest&page-size=${pageSize}&show-fields=${FIELDS}&api-key=${apiKey}`;
 
-  const data = await fetchClient<NewsApiResponse>(url, {
-    revalidate: ONE_HOUR,
+  const data = await fetchClient<GuardianResponse>(url, {
+    revalidate: 600,
     tags: ["top-headlines"],
   });
 
-  return data.articles;
+  return data.response.results;
 }
 
 export async function getArticlesByCategory(
   category: string
 ): Promise<Article[]> {
-  const url = `${baseUrl}/top-headlines?country=${defaultCountry}&category=${category}&pageSize=20&apiKey=${apiKey}`;
+  const section = CATEGORY_MAP[category] ?? category;
+  const url = `${baseUrl}/search?section=${section}&order-by=newest&page-size=20&show-fields=${FIELDS}&api-key=${apiKey}`;
 
-  const data = await fetchClient<NewsApiResponse>(url, {
-    revalidate: ONE_HOUR,
+  const data = await fetchClient<GuardianResponse>(url, {
+    revalidate: 3600,
     tags: [`category-${category}`],
   });
 
-  return data.articles;
+  return data.response.results;
 }
 
 export async function getArticleById(
-  id: string
+  encodedId: string
 ): Promise<Article | null> {
-  const categories = [
-    "general",
-    "business",
-    "entertainment",
-    "health",
-    "science",
-    "sports",
-    "technology",
-  ];
+  const id = decodeArticleId(encodedId);
+  const url = `${baseUrl}/${id}?show-fields=${FIELDS}&api-key=${apiKey}`;
 
-  const results = await Promise.allSettled(
-    categories.map((cat) => getArticlesByCategory(cat))
-  );
+  try {
+    const data = await fetchClient<{
+      response: { status: string; content: Article };
+    }>(url, {
+      revalidate: 3600,
+      tags: [`article-${encodedId}`],
+    });
 
-  const allArticles = results
-    .filter((r): r is PromiseFulfilledResult<Article[]> => r.status === "fulfilled")
-    .flatMap((r) => r.value);
-
-  return (
-    allArticles.find((article) => encodeArticleId(article.url) === id) ?? null
-  );
+    return data.response.content ?? null;
+  } catch {
+    return null;
+  }
 }
