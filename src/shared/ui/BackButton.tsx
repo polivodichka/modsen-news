@@ -9,7 +9,7 @@ export function BackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className="flex w-fit items-center gap-2 text-[30px] leading-[25px] font-bold text-[var(--text)] transition-colors hover:text-[var(--accent)]"
+      className="flex w-fit cursor-pointer items-center gap-2 text-[30px] leading-[25px] font-bold text-[var(--text)] transition-colors hover:text-[var(--accent)]"
     >
       <ArrowLeft />
       Back

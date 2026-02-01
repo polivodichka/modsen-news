@@ -14,7 +14,15 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Modsen News",
+  title: {
+    default: "Modsen News",
+    template: "%s — Modsen News",
+  },
+  description: "Latest news from around the world",
+  openGraph: {
+    siteName: "Modsen News",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -29,6 +37,11 @@ export default function RootLayout({
       >
         <Header />
         <main className="mx-auto max-w-7xl px-4 py-8">{children}</main>
+        <footer className="mt-auto border-t border-gray-200 py-6">
+          <p className="text-center text-xs text-[var(--text-info)]">
+            © {new Date().getFullYear()} Modsen News
+          </p>
+        </footer>
       </body>
     </html>
   );

@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!category) return { title: "Not Found" };
 
   return {
-    title: `${category.label} — Modsen News`,
+    title: category.label,
   };
 }
 

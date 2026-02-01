@@ -13,10 +13,10 @@ export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
   const article = await getArticleById(id);
 
-  if (!article) return { title: "Article not found — Modsen News" };
+  if (!article) return { title: "Article not found" };
 
   return {
-    title: `${article.fields.headline ?? article.webTitle} — Modsen News`,
+    title: article.fields.headline ?? article.webTitle,
     description: article.fields.trailText ?? undefined,
   };
 }
