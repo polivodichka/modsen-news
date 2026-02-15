@@ -19,28 +19,36 @@ const CATEGORY_MAP: Record<string, string> = {
 };
 
 export async function getTopHeadlines(): Promise<Article[]> {
-  const url = `${baseUrl}/search?order-by=newest&page-size=${pageSize}&show-fields=${FIELDS}&api-key=${apiKey}`;
+  try {
+    const url = `${baseUrl}/search?order-by=newest&page-size=${pageSize}&show-fields=${FIELDS}&api-key=${apiKey}`;
 
-  const data = await fetchClient<GuardianResponse>(url, {
-    revalidate: 600,
-    tags: ["top-headlines"],
-  });
+    const data = await fetchClient<GuardianResponse>(url, {
+      revalidate: 600,
+      tags: ["top-headlines"],
+    });
 
-  return data.response.results;
+    return data.response.results;
+  } catch {
+    return [];
+  }
 }
 
 export async function getArticlesByCategory(
   category: string
 ): Promise<Article[]> {
-  const section = CATEGORY_MAP[category] ?? category;
-  const url = `${baseUrl}/search?section=${section}&order-by=newest&page-size=20&show-fields=${FIELDS}&api-key=${apiKey}`;
+  try {
+    const section = CATEGORY_MAP[category] ?? category;
+    const url = `${baseUrl}/search?section=${section}&order-by=newest&page-size=20&show-fields=${FIELDS}&api-key=${apiKey}`;
 
-  const data = await fetchClient<GuardianResponse>(url, {
-    revalidate: 3600,
-    tags: [`category-${category}`],
-  });
+    const data = await fetchClient<GuardianResponse>(url, {
+      revalidate: 3600,
+      tags: [`category-${category}`],
+    });
 
-  return data.response.results;
+    return data.response.results;
+  } catch {
+    return [];
+  }
 }
 
 export async function getArticleById(

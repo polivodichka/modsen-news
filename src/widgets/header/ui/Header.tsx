@@ -3,19 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CATEGORIES } from "@/shared/config";
-import { cn } from "@/shared/lib";
+import { cn, useLocalStorage } from "@/shared/lib";
 
 export const NavLink = ({
   href = "/",
   children,
   isActive = false,
+  onClick,
 }: {
   href?: string;
   children: React.ReactNode;
   isActive?: boolean;
+  onClick?: () => void;
 }) => (
   <Link
     href={href}
+    onClick={onClick}
     className={cn(
       "block rounded-full px-3 py-1 text-sm font-light whitespace-nowrap transition-all duration-200",
       isActive
@@ -29,9 +32,10 @@ export const NavLink = ({
 
 export function Header() {
   const pathname = usePathname();
+  const [, setLastCategory] = useLocalStorage("last-category", "");
 
   return (
-    <header className="font-montserrat sticky top-0 z-10 w-full border-[var(--muted)] bg-[#000D1F]">
+    <header className="font-montserrat sticky top-0 z-10 w-full bg-[#000D1F]">
       <div className="mx-auto flex h-[80px] max-w-7xl items-center justify-between px-8">
         <Link
           href="/"
@@ -41,7 +45,11 @@ export function Header() {
         </Link>
 
         <nav className="scrollbar-none flex items-center gap-1 overflow-x-auto pb-2">
-          <NavLink href="/" isActive={pathname === "/"}>
+          <NavLink
+            href="/"
+            isActive={pathname === "/"}
+            onClick={() => setLastCategory("")}
+          >
             News
           </NavLink>
 
@@ -50,6 +58,7 @@ export function Header() {
               key={cat.id}
               href={`/category/${cat.id}`}
               isActive={pathname === `/category/${cat.id}`}
+              onClick={() => setLastCategory(cat.id)}
             >
               {cat.label}
             </NavLink>
