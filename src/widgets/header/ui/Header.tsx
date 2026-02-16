@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CATEGORIES } from "@/shared/config";
+import { CATEGORIES } from "@/entities/article/config/constants";
 import { cn, useLocalStorage } from "@/shared/lib";
 
 export const NavLink = ({
@@ -30,7 +30,7 @@ export const NavLink = ({
   </Link>
 );
 
-export function Header() {
+export const Header = () => {
   const pathname = usePathname();
   const [, setLastCategory] = useLocalStorage("last-category", "");
 
@@ -67,4 +67,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+};

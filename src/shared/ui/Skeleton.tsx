@@ -1,10 +1,10 @@
 import { cn } from "@/shared/lib";
 
-interface SkeletonProps {
+type SkeletonProps = {
   className?: string;
-}
+};
 
-export function Skeleton({ className }: SkeletonProps) {
+export const Skeleton = ({ className }: SkeletonProps) => {
   return (
     <div
       className={cn(
@@ -13,4 +13,4 @@ export function Skeleton({ className }: SkeletonProps) {
       )}
     />
   );
-}
+};

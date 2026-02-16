@@ -1,8 +1,7 @@
-import { CATEGORIES } from "@/shared/config";
-import { CategoryCard } from "./CategoryCard";
-import { CategoryCardLink } from "./CategoryCardLink";
+import { CATEGORIES } from "@/entities/article/config/constants";
+import { CategoryCard, CategoryCardLink } from "@/widgets/category-card";
 
-export function CategoryGrid() {
+export const CategoriesList = () => {
   return (
     <div className="grid grid-cols-2 gap-[36px] sm:grid-cols-3 lg:grid-cols-3">
       {CATEGORIES.map(({ id, label, image }) => (
@@ -12,4 +11,4 @@ export function CategoryGrid() {
       ))}
     </div>
   );
-}
+};

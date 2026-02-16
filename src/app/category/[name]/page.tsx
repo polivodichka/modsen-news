@@ -1,21 +1,20 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { getArticlesByCategory } from "@/entities/article";
-import { ArticleCard, ArticleCardSkeleton } from "@/widgets/article-card";
-import { CATEGORIES, type CategoryId } from "@/shared/config";
+import { getArticlesByCategory } from "@/entities/article/api";
+import { CATEGORIES } from "@/entities/article/config";
 
-interface PageProps {
+import { ArticlesList, ArticlesListSkeleton } from "@/widgets/articles-list";
+import { Category } from "@/entities/article/model";
+
+type CategoryPageProps = {
   params: Promise<{ name: string }>;
-}
+};
 
-// SSG — предварительно генерируем все категории
-export async function generateStaticParams() {
+export const generateStaticParams = () => {
   return CATEGORIES.map((cat) => ({ name: cat.id }));
-}
+};
 
-// Динамические метаданные
-export async function generateMetadata({ params }: PageProps) {
+export const generateMetadata = async ({ params }: CategoryPageProps) => {
   const { name } = await params;
   const category = CATEGORIES.find((c) => c.id === name);
 
@@ -24,9 +23,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: category.label,
   };
-}
+};
 
-async function CategoryArticleList({ category }: { category: CategoryId }) {
+const CategoryArticlesList = async ({ category }: { category: Category }) => {
   const articles = await getArticlesByCategory(category);
 
   if (!articles.length) {
@@ -37,26 +36,10 @@ async function CategoryArticleList({ category }: { category: CategoryId }) {
     );
   }
 
-  return (
-    <div className="grid grid-cols-1 gap-[36px] sm:grid-cols-2 lg:grid-cols-3">
-      {articles.map((article) => (
-        <ArticleCard key={article.webUrl} article={article} />
-      ))}
-    </div>
-  );
-}
+  return <ArticlesList getArticles={() => getArticlesByCategory(category)} />;
+};
 
-function CategoryArticleListFallback() {
-  return (
-    <div className="grid grid-cols-1 gap-[36px] sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <ArticleCardSkeleton key={i} />
-      ))}
-    </div>
-  );
-}
-
-export default async function CategoryPage({ params }: PageProps) {
+const CategoryPage = async ({ params }: CategoryPageProps) => {
   const { name } = await params;
   const category = CATEGORIES.find((c) => c.id === name);
 
@@ -64,13 +47,12 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Header */}
       <h1 className="text-4xl font-bold">Category - {category.label}</h1>
-
-      {/* Articles */}
-      <Suspense fallback={<CategoryArticleListFallback />}>
-        <CategoryArticleList category={category.id} />
+      <Suspense fallback={<ArticlesListSkeleton />}>
+        <CategoryArticlesList category={category.id} />
       </Suspense>
     </div>
   );
-}
+};
+
+export default CategoryPage;

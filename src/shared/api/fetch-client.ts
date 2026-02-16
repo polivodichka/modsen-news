@@ -1,12 +1,12 @@
-interface FetchOptions extends RequestInit {
+type FetchOptions = RequestInit & {
   revalidate?: number;
   tags?: string[];
-}
+};
 
-export async function fetchClient<T>(
+export const fetchClient = async <T>(
   url: string,
   options: FetchOptions = {}
-): Promise<T> {
+): Promise<T> => {
   const { revalidate, tags, ...init } = options;
 
   const res = await fetch(url, {
@@ -22,4 +22,4 @@ export async function fetchClient<T>(
   }
 
   return res.json() as Promise<T>;
-}
+};

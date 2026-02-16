@@ -1,4 +1,4 @@
-export default function robots() {
+const robots = () => {
   return {
     rules: {
       userAgent: "*",
@@ -6,4 +6,6 @@ export default function robots() {
     },
     sitemap: process.env.NEXT_PUBLIC_BASE_URL,
   };
-}
+};
+
+export default robots;

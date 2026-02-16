@@ -1,15 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Article } from "@/entities/article";
-import { encodeArticleId } from "@/entities/article";
+import type { Article } from "@/entities/article/model";
+import { encodeArticleId } from "@/entities/article/model";
 import { formatDate, cn, normalizeImageUrl } from "@/shared/lib";
 
-interface ArticleCardProps {
+type ArticleCardProps = {
   article: Article;
-  className?: string;
-}
+};
 
-export function ArticleCard({ article, className }: ArticleCardProps) {
+export const ArticleCard = ({ article }: ArticleCardProps) => {
   const id = encodeArticleId(article.id);
 
   return (
@@ -17,12 +16,10 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
       href={`/articles/${id}`}
       className={cn(
         "group grid grid-rows-[240px_1fr] overflow-hidden rounded-[5px] bg-white",
-        "text-[var(--text-info)] transition-all duration-300 hover:shadow-xl",
-        className
+        "text-[var(--text-info)] transition-all duration-300 hover:shadow-xl"
       )}
     >
-      {/* Image */}
-      <div className="relative w-full overflow-hidden bg-gray-100">
+      <div className="relative w-full overflow-hidden">
         {article.fields.thumbnail ? (
           <Image
             src={normalizeImageUrl(article.fields.thumbnail)}
@@ -32,20 +29,17 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gray-100">
+          <div className="flex h-full w-full items-center justify-center bg-[var(--accent)]">
             <span className="text-4xl">📰</span>
           </div>
         )}
       </div>
 
-      {/* Content */}
       <div className="mx-[20px] mt-[20px] mb-[25px] grid grid-rows-[auto_1fr_auto] gap-[15px]">
-        {/* Date */}
-        <span className="text-xs">
+        <time className="text-xs" dateTime={article.webPublicationDate}>
           {formatDate(article.webPublicationDate)}
-        </span>
+        </time>
 
-        {/* Title + Description */}
         <div className="grid gap-2">
           <h2 className="line-clamp-3 text-lg leading-snug font-bold text-[var(--text)] transition-colors duration-200 group-hover:text-[var(--accent)]">
             {article.fields.headline ?? article.webTitle}
@@ -58,7 +52,6 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
           )}
         </div>
 
-        {/* Author footer */}
         <div className="grid gap-0.5 border-t border-gray-100 pt-6">
           <span className="truncate text-xs leading-relaxed font-bold text-[var(--text)]">
             By {article.fields.byline ?? article.sectionName}
@@ -68,4 +61,4 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
       </div>
     </Link>
   );
-}
+};

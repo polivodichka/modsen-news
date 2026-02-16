@@ -1,29 +1,32 @@
 import { fetchClient } from "@/shared/api";
-import { API_CONFIG } from "@/shared/config";
-import type { GuardianResponse, Article } from "../model";
-import { decodeArticleId } from "../model";
 
-const { baseUrl, apiKey, pageSize } = API_CONFIG;
+import { ONE_HOUR_SEC } from "@/shared/config";
+import {
+  Article,
+  GuardianResponse,
+  Category,
+  decodeArticleId,
+  GuardianRequestParams,
+} from "@/entities/article/model";
+import {
+  CATEGORY_TO_GUARDIAN_SECTION,
+  TOP_ARTICLES_LENGTH,
+} from "@/entities/article/config";
+import { buildUrl } from "@/entities/article/lib";
 
-const FIELDS = "headline,bodyText,thumbnail,byline,shortUrl,trailText";
+const SEARCH_PATH = "/search";
 
-// Маппинг наших категорий на секции Guardian
-const CATEGORY_MAP: Record<string, string> = {
-  general: "news",
-  business: "business",
-  entertainment: "culture",
-  health: "lifeandstyle",
-  science: "science",
-  sports: "sport",
-  technology: "technology",
-};
-
-export async function getTopHeadlines(): Promise<Article[]> {
+export const getTopArticles = async (): Promise<Article[]> => {
   try {
-    const url = `${baseUrl}/search?order-by=newest&page-size=${pageSize}&show-fields=${FIELDS}&api-key=${apiKey}`;
+    const url = buildUrl({
+      path: SEARCH_PATH,
+      params: {
+        [GuardianRequestParams.PAGE_SIZE]: TOP_ARTICLES_LENGTH,
+      },
+    });
 
     const data = await fetchClient<GuardianResponse>(url, {
-      revalidate: 600,
+      revalidate: ONE_HOUR_SEC,
       tags: ["top-headlines"],
     });
 
@@ -31,17 +34,22 @@ export async function getTopHeadlines(): Promise<Article[]> {
   } catch {
     return [];
   }
-}
+};
 
-export async function getArticlesByCategory(
-  category: string
-): Promise<Article[]> {
+export const getArticlesByCategory = async (
+  category: Category
+): Promise<Article[]> => {
   try {
-    const section = CATEGORY_MAP[category] ?? category;
-    const url = `${baseUrl}/search?section=${section}&order-by=newest&page-size=20&show-fields=${FIELDS}&api-key=${apiKey}`;
+    const section = CATEGORY_TO_GUARDIAN_SECTION[category];
+    const url = buildUrl({
+      path: SEARCH_PATH,
+      params: {
+        [GuardianRequestParams.SECTION]: section,
+      },
+    });
 
     const data = await fetchClient<GuardianResponse>(url, {
-      revalidate: 3600,
+      revalidate: ONE_HOUR_SEC,
       tags: [`category-${category}`],
     });
 
@@ -49,19 +57,19 @@ export async function getArticlesByCategory(
   } catch {
     return [];
   }
-}
+};
 
-export async function getArticleById(
+export const getArticleById = async (
   encodedId: string
-): Promise<Article | null> {
-  const id = decodeArticleId(encodedId);
-  const url = `${baseUrl}/${id}?show-fields=${FIELDS}&api-key=${apiKey}`;
+): Promise<Article | null> => {
+  const path = decodeArticleId(encodedId);
+  const url = buildUrl({ path });
 
   try {
     const data = await fetchClient<{
       response: { status: string; content: Article };
     }>(url, {
-      revalidate: 3600,
+      revalidate: ONE_HOUR_SEC,
       tags: [`article-${encodedId}`],
     });
 
@@ -69,4 +77,4 @@ export async function getArticleById(
   } catch {
     return null;
   }
-}
+};

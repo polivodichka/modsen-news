@@ -1,5 +1,5 @@
 export {
-  getTopHeadlines,
+  getTopArticles,
   getArticlesByCategory,
   getArticleById,
 } from "./article-api";

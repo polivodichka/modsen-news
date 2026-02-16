@@ -1,13 +1,19 @@
+import { cn } from "@/shared/lib";
 import Image from "next/image";
 
-interface CategoryCardProps {
+type CategoryCardProps = {
   label: string;
   image: string;
-}
+};
 
-export function CategoryCard({ label, image }: CategoryCardProps) {
+export const CategoryCard = ({ label, image }: CategoryCardProps) => {
   return (
-    <>
+    <div
+      className={cn(
+        "group relative block aspect-[3/4] overflow-hidden rounded-[20px]",
+        "transition-all duration-300 hover:-translate-y-1 hover:shadow-[10px_10px_10px_10px_rgba(0,0,0,0.25)]"
+      )}
+    >
       <Image
         src={image}
         alt={label}
@@ -21,6 +27,6 @@ export function CategoryCard({ label, image }: CategoryCardProps) {
       <div className="absolute right-0 bottom-0 left-0 p-4">
         <h3 className="text-4xl font-bold text-white">{label}</h3>
       </div>
-    </>
+    </div>
   );
-}
+};

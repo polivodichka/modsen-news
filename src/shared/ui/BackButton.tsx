@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useLocalStorage } from "@/shared/lib";
 import { ArrowLeft } from "./icons/ArrowLeft";
 
-export function BackButton() {
+export const BackButton = () => {
   const router = useRouter();
   const [lastCategory] = useLocalStorage("last-category", "");
 
@@ -25,4 +25,4 @@ export function BackButton() {
       Back
     </button>
   );
-}
+};

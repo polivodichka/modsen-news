@@ -1,55 +1,48 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getArticleById } from "@/entities/article";
+import { getArticleById } from "@/entities/article/api";
 import { formatDate, normalizeImageUrl } from "@/shared/lib";
 import { BackButton, Skeleton } from "@/shared/ui";
 
-interface PageProps {
+type ArticlePageProps = {
   params: Promise<{ id: string }>;
-}
+};
 
-export async function generateMetadata({ params }: PageProps) {
+export const generateMetadata = async ({ params }: ArticlePageProps) => {
   const { id } = await params;
   const article = await getArticleById(id);
-
   if (!article) return { title: "Article not found" };
-
   return {
     title: article.fields.headline ?? article.webTitle,
     description: article.fields.trailText ?? undefined,
   };
-}
+};
 
-async function ArticleContent({ id }: { id: string }) {
+const Article = async ({ id }: { id: string }) => {
   const article = await getArticleById(id);
 
   if (!article) notFound();
 
   return (
     <div className="grid grid-cols-[165px_1fr] items-start gap-[40px]">
-      {/* Back */}
       <BackButton />
       <article className="mt-[65px] grid gap-[24px]">
-        {/* Date */}
-        <p className="text-sm font-bold">
+        <time
+          dateTime={article.webPublicationDate}
+          className="text-sm font-bold"
+        >
           {formatDate(article.webPublicationDate)}
-        </p>
-        {/* Author */}
+        </time>
         <p className="text-sm">
-          <span className="font-bold text-[var(--text)]">Author</span>
-          <span className="text-[var(--text-info)]">
-            {" "}
-            - {article.fields.byline ?? article.sectionName}
-          </span>
+          <span className="font-bold text-[var(--text)]">Author</span>-{" "}
+          {article.fields.byline ?? article.sectionName}
         </p>
-        {/* Content */}
         {article.fields.bodyText && (
           <p className="max-w-[860px] text-[14px] leading-[25px] font-normal text-[var(--text-info)]">
             {article.fields.bodyText}
           </p>
         )}
-        {/* Image */}
         {article.fields.thumbnail && (
           <div className="relative h-[300px] w-[420px] overflow-hidden rounded-[5px]">
             <Image
@@ -64,9 +57,9 @@ async function ArticleContent({ id }: { id: string }) {
       </article>
     </div>
   );
-}
+};
 
-function ArticleContentFallback() {
+const ArticleFallback = () => {
   return (
     <div className="grid gap-[40px]">
       <Skeleton className="h-6 w-20" />
@@ -82,17 +75,15 @@ function ArticleContentFallback() {
       </div>
     </div>
   );
-}
+};
 
-async function ArticleContentWrapper({ params }: PageProps) {
+const ArticlePage = async ({ params }: ArticlePageProps) => {
   const { id } = await params;
-  return <ArticleContent id={id} />;
-}
-
-export default function ArticlePage({ params }: PageProps) {
   return (
-    <Suspense fallback={<ArticleContentFallback />}>
-      <ArticleContentWrapper params={params} />
+    <Suspense fallback={<ArticleFallback />}>
+      <Article id={id} />
     </Suspense>
   );
-}
+};
+
+export default ArticlePage;

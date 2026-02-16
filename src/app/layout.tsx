@@ -25,18 +25,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${montserrat.variable} min-h-screen text-[var(--text)]`}
+        className={`${inter.variable} ${montserrat.variable} grid-columns-[1fr] grid min-h-screen grid-rows-[auto_1fr_auto] text-[var(--text)]`}
       >
         <Header />
-        <main className="mx-auto max-w-7xl px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-7xl px-4 py-8">{children}</main>
         <footer className="mt-auto border-t border-gray-200 py-6">
           <p className="text-center text-xs text-[var(--text-info)]">
             © {new Date().getFullYear()} Modsen News
@@ -45,4 +41,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

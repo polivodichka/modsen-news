@@ -2,9 +2,13 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ONE_HOUR } from "@/shared/config/time";
+import { ONE_HOUR_MS } from "@/shared/config";
 
-export function AutoRefresh({ interval = ONE_HOUR }: { interval?: number }) {
+export const AutoRefresh = ({
+  interval = ONE_HOUR_MS,
+}: {
+  interval?: number;
+}) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -16,4 +20,4 @@ export function AutoRefresh({ interval = ONE_HOUR }: { interval?: number }) {
   }, [router, interval]);
 
   return null;
-}
+};

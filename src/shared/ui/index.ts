@@ -1,4 +1,4 @@
 export { Skeleton } from "./Skeleton";
 export { AutoRefresh } from "./AutoRefresh";
-export { ArticlesGrid } from "./ArticlesGrid";
+export { Grid as Grid } from "./Grid";
 export { BackButton } from "./BackButton";

@@ -1,4 +1,4 @@
-export function ArrowLeft() {
+export const ArrowLeft = () => {
   return (
     <svg
       width="22"
@@ -13,4 +13,4 @@ export function ArrowLeft() {
       />
     </svg>
   );
-}
+};

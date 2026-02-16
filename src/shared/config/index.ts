@@ -1,3 +1,1 @@
-export { CATEGORIES } from "./categories";
-export type { CategoryId } from "./categories";
-export { API_CONFIG } from "./api";
+export { TEN_MINS_MS, ONE_HOUR_SEC, ONE_HOUR_MS } from "./time";

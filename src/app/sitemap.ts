@@ -1,7 +1,7 @@
-import { CATEGORIES } from "@/shared/config";
+import { CATEGORIES } from "@/entities/article/config/constants";
 
-export default function sitemap() {
-  const baseUrl = "https://modsen-news.vercel.app";
+const sitemap = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const categoryUrls = CATEGORIES.map((cat) => ({
     url: `${baseUrl}/category/${cat.id}`,
@@ -19,4 +19,6 @@ export default function sitemap() {
     },
     ...categoryUrls,
   ];
-}
+};
+
+export default sitemap;

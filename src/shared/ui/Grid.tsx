@@ -1,9 +1,9 @@
-interface ArticlesGridProps {
+type GridProps = {
   children: React.ReactNode;
   cols?: 3 | 4;
-}
+};
 
-export function ArticlesGrid({ children, cols = 4 }: ArticlesGridProps) {
+export const Grid = ({ children, cols = 4 }: GridProps) => {
   return (
     <div
       className={
@@ -15,4 +15,4 @@ export function ArticlesGrid({ children, cols = 4 }: ArticlesGridProps) {
       {children}
     </div>
   );
-}
+};
