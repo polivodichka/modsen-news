@@ -36,7 +36,7 @@ const CategoryArticlesList = async ({ category }: { category: Category }) => {
     );
   }
 
-  return <ArticlesList getArticles={() => getArticlesByCategory(category)} />;
+  return <ArticlesList articles={articles} />;
 };
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {

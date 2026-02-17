@@ -1,5 +1,6 @@
 import { CATEGORIES } from "@/entities/article/config/constants";
-import { CategoryCard, CategoryCardLink } from "@/widgets/category-card";
+import { CategoryCard } from "@/entities/article/ui";
+import { CategoryCardLink } from "@/widgets/category-card-link";
 
 export const CategoriesList = () => {
   return (

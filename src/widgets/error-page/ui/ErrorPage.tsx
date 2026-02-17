@@ -3,9 +3,10 @@ import { BackButton } from "@/shared/ui";
 type ErrorPageProps = {
   code: string;
   message: string;
+  onReset?: () => void;
 };
 
-export const ErrorPage = ({ code, message }: ErrorPageProps) => {
+export const ErrorPage = ({ code, message, onReset }: ErrorPageProps) => {
   return (
     <div className="grid grid-cols-[165px_1fr] items-start gap-[40px]">
       <BackButton />
@@ -14,6 +15,14 @@ export const ErrorPage = ({ code, message }: ErrorPageProps) => {
           {code}
         </h1>
         <p className="text-xl text-[var(--text-info)]">{message}</p>
+        {onReset && (
+          <button
+            onClick={onReset}
+            className="mt-4 cursor-pointer rounded-full bg-[var(--accent)] px-6 py-2 text-white transition hover:opacity-80"
+          >
+            Try again
+          </button>
+        )}
       </div>
     </div>
   );

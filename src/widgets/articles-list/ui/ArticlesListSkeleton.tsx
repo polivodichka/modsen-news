@@ -1,5 +1,5 @@
+import { ArticleCardSkeleton } from "@/entities/article/ui";
 import { Grid } from "@/shared/ui";
-import { ArticleCardSkeleton } from "@/widgets/article-card";
 
 type ArticlesListSkeletonProps = {
   length?: number;

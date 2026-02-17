@@ -1,10 +1,18 @@
 import { Suspense } from "react";
-import { getTopArticles } from "@/entities/article/api";
+import { getLatestArticles } from "@/entities/article/api";
 import { AutoRefresh } from "@/shared/ui";
-import { CategoriesList } from "@/widgets/category-card";
-import { ArticlesList, ArticlesListSkeleton } from "@/widgets/articles-list";
-import { CategoriesListSkeleton } from "@/widgets/categories-list";
+
+import {
+  CategoriesList,
+  CategoriesListSkeleton,
+} from "@/widgets/categories-list";
 import { TEN_MINS_MS } from "@/shared/config";
+import { ArticlesList, ArticlesListSkeleton } from "@/widgets/articles-list";
+
+const LatestArticles = async () => {
+  const articles = await getLatestArticles();
+  return <ArticlesList articles={articles} />;
+};
 
 const HomePage = () => {
   return (
@@ -21,7 +29,7 @@ const HomePage = () => {
       <section className="flex flex-col gap-[20px]">
         <h2 className="text-4xl font-bold">Latest News</h2>
         <Suspense fallback={<ArticlesListSkeleton />}>
-          <ArticlesList getArticles={getTopArticles} />
+          <LatestArticles />
         </Suspense>
       </section>
     </div>

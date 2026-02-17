@@ -1,8 +1,6 @@
-import { Category } from "../model";
-
 export const API_CONFIG = {
-  baseUrl: process.env.NEXT_PUBLIC_GUARDIAN_API_URL!,
-  apiKey: process.env.NEXT_PUBLIC_GUARDIAN_API_KEY!,
+  baseUrl: process.env.NEXT_PUBLIC_GUARDIAN_API_URL,
+  apiKey: process.env.GUARDIAN_API_KEY,
 } as const;
 
 export const TOP_ARTICLES_LENGTH = 8;

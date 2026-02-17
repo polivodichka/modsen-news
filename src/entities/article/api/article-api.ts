@@ -1,6 +1,6 @@
 import { fetchClient } from "@/shared/api";
 
-import { ONE_HOUR_SEC } from "@/shared/config";
+import { TEN_MINS_SEC, ONE_DAY_SEC } from "@/shared/config";
 import {
   Article,
   GuardianResponse,
@@ -16,7 +16,7 @@ import { buildUrl } from "@/entities/article/lib";
 
 const SEARCH_PATH = "/search";
 
-export const getTopArticles = async (): Promise<Article[]> => {
+export const getLatestArticles = async (): Promise<Article[]> => {
   try {
     const url = buildUrl({
       path: SEARCH_PATH,
@@ -26,7 +26,7 @@ export const getTopArticles = async (): Promise<Article[]> => {
     });
 
     const data = await fetchClient<GuardianResponse>(url, {
-      revalidate: ONE_HOUR_SEC,
+      revalidate: TEN_MINS_SEC,
       tags: ["top-headlines"],
     });
 
@@ -49,7 +49,7 @@ export const getArticlesByCategory = async (
     });
 
     const data = await fetchClient<GuardianResponse>(url, {
-      revalidate: ONE_HOUR_SEC,
+      revalidate: TEN_MINS_SEC,
       tags: [`category-${category}`],
     });
 
@@ -69,7 +69,7 @@ export const getArticleById = async (
     const data = await fetchClient<{
       response: { status: string; content: Article };
     }>(url, {
-      revalidate: ONE_HOUR_SEC,
+      revalidate: ONE_DAY_SEC,
       tags: [`article-${encodedId}`],
     });
 
