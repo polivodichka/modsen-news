@@ -14,7 +14,7 @@ const LatestArticles = async () => {
   return <ArticlesList articles={articles} />;
 };
 
-const HomePage = () => {
+const MainPage = () => {
   return (
     <div className="flex flex-col gap-12">
       <AutoRefresh interval={TEN_MINS_MS} />
@@ -36,4 +36,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default MainPage;

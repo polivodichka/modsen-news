@@ -34,10 +34,12 @@ const Article = async ({ id }: { id: string }) => {
         >
           {formatDate(article.webPublicationDate)}
         </time>
-        <p className="text-sm">
-          <span className="font-bold text-[var(--text)]">Author</span>-{" "}
-          {article.fields.byline ?? article.sectionName}
-        </p>
+        {article.fields.byline && (
+          <p className="text-sm">
+            <span className="font-bold text-[var(--text)]">Author</span> -{" "}
+            {article.fields.byline}
+          </p>
+        )}
         {article.fields.bodyText && (
           <p className="max-w-[860px] text-[14px] leading-[25px] font-normal text-[var(--text-info)]">
             {article.fields.bodyText}

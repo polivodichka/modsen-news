@@ -9,7 +9,9 @@ type BuildUrlProps = {
 };
 
 export const buildUrl = ({ path, params }: BuildUrlProps): string => {
-  const url = new URL(path, baseUrl);
+  const normalizedBase = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+  const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
+  const url = new URL(normalizedPath, normalizedBase);
 
   if (params)
     Object.entries(params).forEach(([key, value]) => {

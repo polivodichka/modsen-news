@@ -53,14 +53,14 @@ export const Header = () => {
             News
           </NavLink>
 
-          {CATEGORIES.map((cat) => (
+          {CATEGORIES.map(({ id, label }) => (
             <NavLink
-              key={cat.id}
-              href={`/category/${cat.id}`}
-              isActive={pathname === `/category/${cat.id}`}
-              onClick={() => setLastCategory(cat.id)}
+              key={id}
+              href={`/category/${id}`}
+              isActive={pathname === `/category/${id}`}
+              onClick={() => setLastCategory(id)}
             >
-              {cat.label}
+              {label}
             </NavLink>
           ))}
         </nav>

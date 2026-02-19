@@ -42,7 +42,11 @@
       "@/pages/*": [
         "./src/pages/*"
       ]
-    }
+    },
+    "types": [
+      "cypress",
+      "@testing-library/cypress"
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -50,7 +54,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "cypress"
   ],
   "exclude": [
     "node_modules"

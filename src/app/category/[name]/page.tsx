@@ -11,12 +11,12 @@ type CategoryPageProps = {
 };
 
 export const generateStaticParams = () => {
-  return CATEGORIES.map((cat) => ({ name: cat.id }));
+  return CATEGORIES.map(({ id: name }) => ({ name }));
 };
 
 export const generateMetadata = async ({ params }: CategoryPageProps) => {
   const { name } = await params;
-  const category = CATEGORIES.find((c) => c.id === name);
+  const category = CATEGORIES.find(({ id }) => id === name);
 
   if (!category) return { title: "Not Found" };
 
@@ -41,7 +41,7 @@ const CategoryArticlesList = async ({ category }: { category: Category }) => {
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
   const { name } = await params;
-  const category = CATEGORIES.find((c) => c.id === name);
+  const category = CATEGORIES.find(({ id }) => id === name);
 
   if (!category) notFound();
 
