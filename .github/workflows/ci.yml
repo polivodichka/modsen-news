@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  hello:
+    name: Hello World
+    runs-on: ubuntu-latest
+    steps:
+      - name: Приветствие
+        run: echo "Hello!"
+
+      - name: Показать ветку
+        run: echo "Ветка ${{ github.ref_name }}"
+
+      - name: Показать автора
+        run: echo "Запустил ${{ github.actor }}"
