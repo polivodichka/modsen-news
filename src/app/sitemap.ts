@@ -4,7 +4,7 @@ const sitemap = () => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const categoryUrls = CATEGORIES.map((category) => ({
-    url: `${baseUrl}/category/${cat.id}`,
+    url: `${baseUrl}/category/${category.id}`,
     lastModified: new Date(),
     changeFrequency: "hourly" as const,
     priority: 0.8,
