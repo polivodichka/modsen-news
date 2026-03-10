@@ -1,4 +1,4 @@
-import { CategoryCardSkeleton } from "@/entities/article/ui";
+import { CategoryCardSkeleton } from "@/entities/article";
 import { Grid } from "@/shared/ui";
 
 type CategoriesListSkeletonProps = {

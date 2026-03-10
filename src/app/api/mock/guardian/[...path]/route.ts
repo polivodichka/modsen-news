@@ -1,5 +1,8 @@
-import { CATEGORY_TO_GUARDIAN_SECTION } from "@/entities/article/config";
-import { Category, MOCK_ARTICLES } from "@/entities/article/model";
+import {
+  CATEGORY_TO_GUARDIAN_SECTION,
+  Category,
+  MOCK_ARTICLES,
+} from "@/entities/article";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

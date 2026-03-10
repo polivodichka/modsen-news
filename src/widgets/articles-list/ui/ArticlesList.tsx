@@ -1,5 +1,4 @@
-import { Article } from "@/entities/article/model";
-import { ArticleCard } from "@/entities/article/ui";
+import { Article, ArticleCard } from "@/entities/article";
 import { Grid } from "@/shared/ui";
 
 type ArticleListProps = {

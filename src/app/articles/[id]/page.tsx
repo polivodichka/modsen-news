@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getArticleById } from "@/entities/article/api";
+import { getArticleById } from "@/entities/article";
 import { formatDate, normalizeImageUrl } from "@/shared/lib";
 import { BackButton, Skeleton } from "@/shared/ui";
 
