@@ -1,4 +1,4 @@
-import { CATEGORIES } from "@/entities/article/config/constants";
+import { CATEGORIES } from "@/entities/article";
 
 const sitemap = () => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

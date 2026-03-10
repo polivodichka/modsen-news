@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { getArticlesByCategory } from "@/entities/article/api";
-import { CATEGORIES } from "@/entities/article/config";
+import {
+  getArticlesByCategory,
+  CATEGORIES,
+  Category,
+} from "@/entities/article";
 
 import { ArticlesList, ArticlesListSkeleton } from "@/widgets/articles-list";
-import { Category } from "@/entities/article/model";
 
 type CategoryPageProps = {
   params: Promise<{ name: string }>;

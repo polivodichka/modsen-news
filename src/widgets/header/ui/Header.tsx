@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CATEGORIES } from "@/entities/article/config/constants";
+import { CATEGORIES } from "@/entities/article";
 import { cn, useLocalStorage } from "@/shared/lib";
 
 export const NavLink = ({

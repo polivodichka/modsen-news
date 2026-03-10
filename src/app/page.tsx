@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getLatestArticles } from "@/entities/article/api";
+import { getLatestArticles } from "@/entities/article";
 import { AutoRefresh } from "@/shared/ui";
 
 import {
